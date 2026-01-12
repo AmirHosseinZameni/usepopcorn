@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 
 const containerStyle = {
   display: "flex",
@@ -10,6 +11,11 @@ const starContainer = {
   gap: "4px",
 };
 
+StarRating.propTypes = {
+  maxRating: PropTypes.number,
+  color: PropTypes.string,
+  size: PropTypes.number,
+};
 
 export default function StarRating({
   maxRating = 5,
@@ -22,11 +28,11 @@ export default function StarRating({
     setRating(rating);
   }
   const textStyle = {
-  lineHeight: "0",
-  margin: "1px",
-  color,
-  fontSize: `${size / 1.5}px`
-};
+    lineHeight: "0",
+    margin: "1px",
+    color,
+    fontSize: `${size / 1.5}px`,
+  };
   return (
     <div style={containerStyle}>
       <div style={starContainer}>
@@ -47,14 +53,13 @@ export default function StarRating({
   );
 }
 
-function Star({ onRate, full, onHoverIn, onHoverOut,color, size }) {
+function Star({ onRate, full, onHoverIn, onHoverOut, color, size }) {
   const starStyle = {
-  width: `${size }px`,
-  height: `${size}px`,
-  display: "block",
-  cursor: "pointer",
-
-};
+    width: `${size}px`,
+    height: `${size}px`,
+    display: "block",
+    cursor: "pointer",
+  };
   return (
     <span
       role="button"
