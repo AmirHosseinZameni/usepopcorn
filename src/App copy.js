@@ -1,4 +1,4 @@
-import { Children, useEffect, useState } from "react";
+import { Children, useState } from "react";
 
 const tempMovieData = [
   {
@@ -50,38 +50,9 @@ const tempWatchedData = [
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
-const key = "b4918b58";
-const query = "interstellar";
-
 export default function App() {
-  const [movies, setMovies] = useState([]);
-  const [watched, setWatched] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [erorr, setErorr] = useState("");
-
-  useEffect(function () {
-    async function fetchMovies() {
-      try {
-        setIsLoading(true);
-        const res = await fetch(
-          `http://www.omdbapi.com/?apikey=${key}&s=${query}`,
-        );
-
-        if (!res.ok)
-          throw new Error("somthing went wrong with fetching movies");
-
-        const data = await res.json();
-        if(data.Response === 'False') throw new Error("Movie Not Found!")
-        setMovies(data.Search);
-      } catch (err) {
-        setErorr(err.message);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-    fetchMovies();
-  }, []);
-
+  const [movies, setMovies] = useState(tempMovieData);
+  const [watched, setWatched] = useState(tempWatchedData);
   return (
     <>
       <NavBar>
@@ -91,26 +62,18 @@ export default function App() {
       </NavBar>
       <Main>
         <Box>
-          {/* {isLoading ? <Loader /> : <MovieList movies={movies} />} */}
-          {isLoading && <Loader />}
-          {!isLoading && !erorr && <MovieList movies={movies} />}
-          {erorr && <ErorrMessage message={erorr} />}
+          <MovieList movies={movies} />
         </Box>
         <Box>
-          <WatchedSummary watched={watched} />
-          <WatchedList watched={watched} />
+          <WatchedSummary watched={watched}/>
+          <WatchedList watched={watched}/>
+          
         </Box>
       </Main>
     </>
   );
 }
-function ErorrMessage({ message }) {
-  return <p className="error">{message}</p>;
-}
 
-function Loader() {
-  return <p className="loader">Loading...</p>;
-}
 function NavBar({ children }) {
   return <nav className="nav-bar">{children}</nav>;
 }
@@ -149,7 +112,10 @@ function Box({ children }) {
   const [isOpen, setIsOpen] = useState(true);
   return (
     <div className="box">
-      <button className="btn-toggle" onClick={() => setIsOpen((open) => !open)}>
+      <button
+        className="btn-toggle"
+        onClick={() => setIsOpen((open) => !open)}
+      >
         {isOpen ? "–" : "+"}
       </button>
       {isOpen && children}
@@ -179,6 +145,7 @@ function Movie({ movie }) {
     </li>
   );
 }
+
 
 function WatchedSummary({ watched }) {
   const avgImdbRating = average(watched.map((movie) => movie.imdbRating));
@@ -239,3 +206,6 @@ function WatchedMovie({ movie }) {
     </li>
   );
 }
+
+
+
