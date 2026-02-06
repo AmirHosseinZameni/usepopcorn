@@ -11,7 +11,7 @@ const key = "b4918b58";
 export default function App() {
   const [query, setQuery] = useState("inception");
   const [movies, setMovies] = useState([]);
-  const [watched, setWatched] = useState([]);
+  const [watched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [erorr, setErorr] = useState("");
   const [selectedId, setSelectedId] = useState(null);
@@ -96,7 +96,7 @@ function MovieDetails({ selectedId, onCloseMovie }) {
   const [isLoading, setIsLoading] = useState(false);
   const {
     Title: title,
-    Year: year,
+    // Year: year,
     Poster: poster,
     Runtime: runtime,
     Plot: plot,
